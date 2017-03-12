@@ -6,7 +6,7 @@ var game = new Phaser.Game(800,600, Phaser.AUTO, '', {
 false, false);
 
 var C = {
-    movespeed: 200
+    movespeed: 250
 };
 
 
@@ -26,6 +26,10 @@ function create() {
     player.enableBody = true;
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
+
+    player.animations.add('up', [2,3], 5, true);
+    player.animations.add('down', [5,4], 5, true);
+
     console.log(player)
 
     cursors = game.input.keyboard.createCursorKeys();
@@ -35,10 +39,13 @@ function update() {
     player.body.velocity.y = 0;
 
     if (cursors.up.isDown) {
+        player.animations.play('up');
         player.body.velocity.y = -C.movespeed;
     } else if (cursors.down.isDown) {
+        player.animations.play('down');
         player.body.velocity.y = C.movespeed;
     } else {
         player.animations.stop();
+        player.frame = 0;
     }
 }
