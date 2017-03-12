@@ -4,7 +4,7 @@ var C = {
     height: 600,
     movespeed: 250,
     birdspawn: {
-        minInterval: 500,
+        minInterval: 800,
         maxInterval: 1000
     }
 };
@@ -107,6 +107,7 @@ function update() {
 function randomBird() {
     var bird = birds.create(C.width, Math.random()*(C.height-100) + 50, 'bird');
     bird.body.velocity.x = Math.random()*(-50)-70;
+    bird.body.velocity.y = Math.random()*100 - 50
     bird.scale.set(5, 5);
 
     bird.animations.add('fly', [1,3,2,0], 12, true);
