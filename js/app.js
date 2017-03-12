@@ -32,6 +32,8 @@ function create() {
     player.animations.add('up', [2,3], 6, true);
     player.animations.add('down', [5,4], 6, true);
     player.animations.add('chomp', [1,0], 6, true);
+    player.animations.add('chompup', [1,2,3], 6, true);
+    player.animations.add('chompdown', [1,5,4], 6, true);
 
     console.log(player)
 
@@ -46,15 +48,17 @@ function update() {
     
     // Chomping
     if (spaceKey.isDown) {
-        player.animations.play('chomp');
         chomping = true;
     }
+
     // Movement
     if (cursors.up.isDown) {
         player.body.velocity.y = -C.movespeed;
         movement = true;
         if (!chomping) {
             player.animations.play('up');
+        } else {
+            player.animations.play('chompup');
         }
     }
     if (cursors.down.isDown) {
@@ -62,9 +66,14 @@ function update() {
         movement = true;
         if (!chomping) {
             player.animations.play('down');
+        } else {
+            player.animations.play('chompdown');
         }
     }
-    if (!chomping && !movement) {
+
+    if (chomping && !movement) {
+        player.animations.play('chomp');
+    } else if (!chomping && !movement) {
         player.animations.stop();
         player.frame = 0;
     }
