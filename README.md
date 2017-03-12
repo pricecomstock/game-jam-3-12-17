@@ -1,1 +1,3 @@
-# game-jam-3-12-17
+# Documents and Dragons
+
+_A game I am creating for a game jam with friends_
