@@ -16,7 +16,7 @@ var cursors;
 var spaceKey;
 
 function preload() {
-    game.load.spritesheet('dragon', 'assets/dragon.png', 32, 32, 6);
+    game.load.spritesheet('dragon', 'assets/dragon.png', 32, 32, 7);
 }
 
 function create() {
@@ -29,6 +29,7 @@ function create() {
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
 
+    player.animations.add('idle', [0,6], 6, true);
     player.animations.add('up', [2,3], 6, true);
     player.animations.add('down', [5,4], 6, true);
     player.animations.add('chomp', [1,0], 6, true);
@@ -74,8 +75,7 @@ function update() {
     if (chomping && !movement) {
         player.animations.play('chomp');
     } else if (!chomping && !movement) {
-        player.animations.stop();
-        player.frame = 0;
+        player.animations.play('idle');
     }
 
 }
