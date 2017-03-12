@@ -1,27 +1,41 @@
-var game = new Phaser.Game(800,600, Phaser.AUTO, '', {
+// Define some constants
+var C = {
+    width: 800,
+    height: 600,
+    movespeed: 250,
+    birdspawn: {
+        minInterval: 500,
+        maxInterval: 1000
+    }
+};
+
+
+var game = new Phaser.Game(C.width, C.height, Phaser.AUTO, '', {
     preload: preload,
     create: create,
     update: update
 },
 false, false);
 
-var C = {
-    movespeed: 250
-};
 
 
 var player;
+var birds;
 
 var cursors;
 var spaceKey;
 
+var birdTime = 0;
+
 function preload() {
     game.load.spritesheet('dragon', 'assets/dragon.png', 32, 32, 7);
+    game.load.spritesheet('bird', 'assets/bird.png', 16, 16, 4);
 }
 
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
+    //import dragon spritesheet
     player = game.add.sprite(0, 100, 'dragon');
     player.scale.setTo(5,5);
 
@@ -36,7 +50,13 @@ function create() {
     player.animations.add('chompup', [1,2,3], 6, true);
     player.animations.add('chompdown', [1,5,4], 6, true);
 
+    //import bird spritesheet
+    birds = game.add.group();
+    birds.enableBody = true;
+    game.physics.arcade.enable(birds);
+
     console.log(player)
+    console.log(birds)
 
     cursors = game.input.keyboard.createCursorKeys();
     spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -47,6 +67,10 @@ function update() {
     let chomping = false;
     let movement = false;
     
+    if (game.time.now >= birdTime) {
+        randomBird();
+    }
+
     // Chomping
     if (spaceKey.isDown) {
         chomping = true;
@@ -78,4 +102,15 @@ function update() {
         player.animations.play('idle');
     }
 
+}
+
+function randomBird() {
+    var bird = birds.create(C.width, Math.random()*(C.height-100) + 50, 'bird');
+    bird.body.velocity.x = Math.random()*(-50)-70;
+    bird.scale.set(5, 5);
+
+    bird.animations.add('fly', [1,3,2,0], 12, true);
+    bird.animations.play('fly')
+
+    birdTime = game.time.now + Math.random() * (C.birdspawn.maxInterval - C.birdspawn.minInterval) + C.birdspawn.minInterval
 }
