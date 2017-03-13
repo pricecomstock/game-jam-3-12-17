@@ -107,11 +107,11 @@ function update() {
 function randomBird() {
     var bird = birds.create(C.width, Math.random()*(C.height-100) + 50, 'bird');
     bird.body.velocity.x = Math.random()*(-50)-70;
-    bird.body.velocity.y = Math.random()*100 - 50
+    bird.body.velocity.y = Math.random()*100 - 50;
     bird.scale.set(5, 5);
 
     bird.animations.add('fly', [1,3,2,0], 12, true);
-    bird.animations.play('fly')
+    bird.animations.play('fly');
 
-    birdTime = game.time.now + Math.random() * (C.birdspawn.maxInterval - C.birdspawn.minInterval) + C.birdspawn.minInterval
+    birdTime = game.time.now + Math.random() * (C.birdspawn.maxInterval - C.birdspawn.minInterval) + C.birdspawn.minInterval;
 }
